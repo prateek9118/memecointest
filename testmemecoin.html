@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Coin Hub</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --background-color: #f0f0f0;
+            --text-color: #2d3436;
+            --card-background: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            display: flex;
+        }
+        
+        nav ul li {
+            margin-left: 1rem;
+        }
+        
+        nav a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .chain-list {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chain-item {
+            background-color: var(--card-background);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .chain-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .news-item {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .news-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .news-item-content {
+            padding: 1rem;
+        }
+        
+        .news-item h3 {
+            margin-top: 0;
+        }
+        
+        .coin-detail {
+            background-color: var(--card-background);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .coin-metrics {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .chart-container {
+            margin-bottom: 2rem;
+        }
+        
+        .social-metrics {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2rem;
+        }
+        
+        .social-metric {
+            text-align: center;
+        }
+        
+        .social-metric-value {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>Meme Coin Hub</h1>
+            <ul>
+                <li><a href="#" onclick="showHomePage()">Home</a></li>
+                <li><a href="#" onclick="showAllCoins()">All Coins</a></li>
+                <li><a href="#">News</a></li>
+                <li><a href="#">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main-content">
+        <!-- Content will be dynamically inserted here -->
+    </main>
+
+    <script>
+        const mainContent = document.getElementById('main-content');
+
+        // Sample data
+        const chains = ['Ethereum', 'Binance Smart Chain', 'Solana', 'Polygon'];
+        const coins = [
+            { id: 1, name: 'DogeCoin', price: '$0.08', marketCap: '$10B', launchDate: '2013-12-06', chain: 'Ethereum' },
+            { id: 2, name: 'Shiba Inu', price: '$0.000009', marketCap: '$5B', launchDate: '2020-08-01', chain: 'Ethereum' },
+            { id: 3, name: 'SafeMoon', price: '$0.0000003', marketCap: '$172M', launchDate: '2021-03-08', chain: 'Binance Smart Chain' },
+            { id: 4, name: 'Floki Inu', price: '$0.00002', marketCap: '$200M', launchDate: '2021-06-28', chain: 'Ethereum' }
+        ];
+        const newsArticles = [
+            { title: 'Meme Coins Surge in Popularity', image: 'https://via.placeholder.com/300x200.png?text=Meme+Coins+Surge' },
+            { title: 'New Meme Coin Launches on Solana', image: 'https://via.placeholder.com/300x200.png?text=New+Solana+Meme+Coin' },
+            { title: 'The Future of Meme Coins: Trend or Bubble?', image: 'https://via.placeholder.com/300x200.png?text=Meme+Coins+Future' }
+        ];
+
+        function showHomePage() {
+            let html = `
+                <section>
+                    <h2 class="section-title">Explore by Blockchain</h2>
+                    <div class="chain-list">
+                        ${chains.map(chain => `<div class="chain-item" onclick="showChainCoins('${chain}')">${chain}</div>`).join('')}
+                    </div>
+                </section>
+                <section>
+                    <h2 class="section-title">Latest News</h2>
+                    <div class="news-grid">
+                        ${newsArticles.map(article => `
+                            <div class="news-item">
+                                <img src="${article.image}" alt="${article.title}">
+                                <div class="news-item-content">
+                                    <h3>${article.title}</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+            `;
+            mainContent.innerHTML = html;
+        }
+
+        function showChainCoins(chain) {
+            const filteredCoins = coins.filter(coin => coin.chain === chain);
+            let html = `
+                <h2 class="section-title">Meme Coins on ${chain}</h2>
+                <div class="news-grid">
+                    ${filteredCoins.map(coin => `
+                        <div class="news-item">
+                            <div class="news-item-content">
+                                <h3>${coin.name}</h3>
+                                <p><strong>Price:</strong> ${coin.price}</p>
+                                <p><strong>Market Cap:</strong> ${coin.marketCap}</p>
+                                <p><strong>Launch Date:</strong> ${coin.launchDate}</p>
+                                <button onclick="showCoinDetail(${coin.id})">View Details</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            mainContent.innerHTML = html;
+        }
+
+        function showAllCoins() {
+            let html = `
+                <h2 class="section-title">All Meme Coins</h2>
+                <div class="news-grid">
+                    ${coins.map(coin => `
+                        <div class="news-item">
+                            <div class="news-item-content">
+                                <h3>${coin.name}</h3>
+                                <p><strong>Price:</strong> ${coin.price}</p>
+                                <p><strong>Market Cap:</strong> ${coin.marketCap}</p>
+                                <p><strong>Launch Date:</strong> ${coin.launchDate}</p>
+                                <p><strong>Chain:</strong> ${coin.chain}</p>
+                                <button onclick="showCoinDetail(${coin.id})">View Details</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            mainContent.innerHTML = html;
+        }
+
+        function showCoinDetail(id) {
+            const coin = coins.find(c => c.id === id);
+            const html = `
+                <div class="coin-detail">
+                    <a href="#" class="back-button" onclick="showAllCoins()">Back to All Coins</a>
+                    <h2>${coin.name}</h2>
+                    <div class="coin-metrics">
+                        <div class="metric">
+                            <div class="metric-value">${coin.price}</div>
+                            <div>Price</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${coin.marketCap}</div>
+                            <div>Market Cap</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${coin.launchDate}</div>
+                            <div>Launch Date</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="tokenomicsChart"></canvas>
+                    </div>
+                    <h3>Social Media Metrics</h3>
+                    <div class="social-metrics">
+                        <div class="social-metric">
+                            <div class="social-metric-value">50K</div>
+                            <div>Twitter Followers</div>
+                        </div>
+                        <div class="social-metric">
+                            <div class="social-metric-value">100K</div>
+                            <div>Telegram Members</div>
+                        </div>
+                        <div class="social-metric">
+                            <div class="social-metric-value">25K</div>
+                            <div>Reddit Subscribers</div>
+                        </div>
+                    </div>
+                    <h3>Recent Articles</h3>
+                    <ul>
+                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                        <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                        <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</li>
+                    </ul>
+                </div>
+            `;
+            mainContent.innerHTML = html;
+
+            // Create tokenomics chart
+            const ctx = document.getElementById('tokenomicsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Team', 'Marketing', 'Development', 'Community'],
+                    datasets: [{
+                        data: [10, 20, 30, 40],
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Tokenomics'
+                    }
+                }
+            });
+        }
+
+        // Initial load
+        showHomePage();
+    </script>
+</body>
+</html>
