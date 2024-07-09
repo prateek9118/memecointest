@@ -3,33 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meme Coin Hub</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>MemeCoin Tracker</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
     <style>
         :root {
-            --primary-color: #6c5ce7;
-            --secondary-color: #a29bfe;
-            --background-color: #f0f0f0;
-            --text-color: #2d3436;
+            --primary-color: #000000;
+            --secondary-color: #ffffff;
+            --accent-color: #3861fb;
+            --text-color: #333333;
+            --background-color: #f8f9fa;
             --card-background: #ffffff;
+            --border-color: #e9ecef;
         }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
             background-color: var(--background-color);
             color: var(--text-color);
         }
-        
+
         header {
             background-color: var(--primary-color);
-            color: #fff;
+            color: var(--secondary-color);
             padding: 1rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
+
         nav {
             display: flex;
             justify-content: space-between;
@@ -37,149 +48,154 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         nav ul {
             list-style-type: none;
             display: flex;
         }
-        
+
         nav ul li {
             margin-left: 1rem;
         }
-        
+
         nav a {
-            color: #fff;
+            color: var(--secondary-color);
             text-decoration: none;
+            font-weight: 500;
         }
-        
+
         main {
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
-        
+
         .section-title {
             font-size: 1.5rem;
             color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 0.5rem;
             margin-bottom: 1rem;
         }
-        
-        .chain-list {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
+
+        .table-container {
+            overflow-x: auto;
         }
-        
-        .chain-item {
-            background-color: var(--card-background);
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        
-        .chain-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .news-item {
-            background-color: var(--card-background);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .news-item img {
+
+        table {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
         }
-        
-        .news-item-content {
-            padding: 1rem;
+
+        th, td {
+            text-align: left;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
         }
-        
-        .news-item h3 {
-            margin-top: 0;
+
+        th {
+            background-color: var(--card-background);
         }
-        
+
+        tr:nth-child(even) {
+            background-color: var(--background-color);
+        }
+
+        tr:hover {
+            cursor: pointer;
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+        }
+
         .coin-detail {
             background-color: var(--card-background);
             padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
         }
-        
+
         .coin-metrics {
             display: flex;
             justify-content: space-between;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
-        
+
         .metric {
             text-align: center;
+            flex: 1;
+            padding: 1rem;
+            background-color: var(--background-color);
+            border-radius: 8px;
+            margin: 0.5rem;
         }
-        
+
         .metric-value {
             font-size: 1.5rem;
             font-weight: bold;
-            color: var(--primary-color);
+            color: var(--accent-color);
         }
-        
+
         .chart-container {
             margin-bottom: 2rem;
+            height: 300px;
         }
-        
+
         .social-metrics {
             display: flex;
             justify-content: space-around;
             margin-bottom: 2rem;
         }
-        
+
         .social-metric {
             text-align: center;
+            background-color: var(--background-color);
+            padding: 1rem;
+            border-radius: 8px;
+            flex: 1;
+            margin: 0 0.5rem;
         }
-        
+
         .social-metric-value {
             font-size: 1.25rem;
             font-weight: bold;
+            color: var(--accent-color);
         }
-        
+
         .back-button {
             display: inline-block;
-            background-color: var(--primary-color);
-            color: #fff;
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
             padding: 0.5rem 1rem;
             text-decoration: none;
             border-radius: 5px;
             margin-bottom: 1rem;
             transition: background-color 0.3s ease;
         }
-        
+
         .back-button:hover {
-            background-color: var(--secondary-color);
+            background-color: var(--primary-color);
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--primary-color);
         }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <h1>Meme Coin Hub</h1>
+            <h1>MemeCoin Tracker</h1>
             <ul>
                 <li><a href="#" onclick="showHomePage()">Home</a></li>
                 <li><a href="#" onclick="showAllCoins()">All Coins</a></li>
@@ -192,89 +208,124 @@
         <!-- Content will be dynamically inserted here -->
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const mainContent = document.getElementById('main-content');
 
         // Sample data
-        const chains = ['Ethereum', 'Binance Smart Chain', 'Solana', 'Polygon'];
         const coins = [
-            { id: 1, name: 'DogeCoin', price: '$0.08', marketCap: '$10B', launchDate: '2013-12-06', chain: 'Ethereum' },
-            { id: 2, name: 'Shiba Inu', price: '$0.000009', marketCap: '$5B', launchDate: '2020-08-01', chain: 'Ethereum' },
-            { id: 3, name: 'SafeMoon', price: '$0.0000003', marketCap: '$172M', launchDate: '2021-03-08', chain: 'Binance Smart Chain' },
-            { id: 4, name: 'Floki Inu', price: '$0.00002', marketCap: '$200M', launchDate: '2021-06-28', chain: 'Ethereum' }
-        ];
-        const newsArticles = [
-            { title: 'Meme Coins Surge in Popularity', image: 'https://via.placeholder.com/300x200.png?text=Meme+Coins+Surge' },
-            { title: 'New Meme Coin Launches on Solana', image: 'https://via.placeholder.com/300x200.png?text=New+Solana+Meme+Coin' },
-            { title: 'The Future of Meme Coins: Trend or Bubble?', image: 'https://via.placeholder.com/300x200.png?text=Meme+Coins+Future' }
+            { id: 1, name: 'DogeCoin', price: 0.08, priceChange1h: 1.5, priceChange24h: 2.5, priceChange7d: 5.0, marketCap: 10000000000, volume: 500000000, supply: 125000000000, chain: 'Ethereum' },
+            { id: 2, name: 'Shiba Inu', price: 0.000009, priceChange1h: -0.5, priceChange24h: 1.0, priceChange7d: 3.0, marketCap: 5000000000, volume: 300000000, supply: 1000000000000000, chain: 'Ethereum' },
+            { id: 3, name: 'SafeMoon', price: 0.0000003, priceChange1h: 2.0, priceChange24h: 4.0, priceChange7d: 7.0, marketCap: 172000000, volume: 20000000, supply: 1000000000000, chain: 'Binance Smart Chain' },
+            { id: 4, name: 'Floki Inu', price: 0.00002, priceChange1h: 0.0, priceChange24h: 2.0, priceChange7d: 4.0, marketCap: 200000000, volume: 15000000, supply: 10000000000000, chain: 'Ethereum' }
         ];
 
         function showHomePage() {
             let html = `
                 <section>
-                    <h2 class="section-title">Explore by Blockchain</h2>
-                    <div class="chain-list">
-                        ${chains.map(chain => `<div class="chain-item" onclick="showChainCoins('${chain}')">${chain}</div>`).join('')}
+                    <div id="carouselExampleIndicators" class="carousel slide mb-4" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="https://via.placeholder.com/1200x400" alt="First slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>Latest News</h3>
+                                    <p>Stay updated with the latest news in the MemeCoin world.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="https://via.placeholder.com/1200x400" alt="Second slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>Blog</h3>
+                                    <p>Read our latest blog posts about MemeCoins.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
                 </section>
                 <section>
-                    <h2 class="section-title">Latest News</h2>
-                    <div class="news-grid">
-                        ${newsArticles.map(article => `
-                            <div class="news-item">
-                                <img src="${article.image}" alt="${article.title}">
-                                <div class="news-item-content">
-                                    <h3>${article.title}</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        `).join('')}
+                    <h2 class="section-title">🔥 Hot Meme Coins (24h Pump)</h2>
+                    <div class="table-container">
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Price Change (24h)</th>
+                                    <th>Market Cap</th>
+                                    <th>Volume</th>
+                                    <th>Supply</th>
+                                    <th>Chain</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${coins.filter(coin => coin.priceChange24h > 0).map(coin => `
+                                    <tr onclick="showCoinDetail(${coin.id})">
+                                        <td>${coin.name}</td>
+                                        <td>${coin.price.toFixed(8)}</td>
+                                        <td>${coin.priceChange24h}%</td>
+                                        <td>${coin.marketCap.toLocaleString()}</td>
+                                        <td>${coin.volume.toLocaleString()}</td>
+                                        <td>${coin.supply.toLocaleString()}</td>
+                                        <td>${coin.chain}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
                     </div>
                 </section>
-            `;
-            mainContent.innerHTML = html;
-        }
-
-        function showChainCoins(chain) {
-            const filteredCoins = coins.filter(coin => coin.chain === chain);
-            let html = `
-                <h2 class="section-title">Meme Coins on ${chain}</h2>
-                <div class="news-grid">
-                    ${filteredCoins.map(coin => `
-                        <div class="news-item">
-                            <div class="news-item-content">
-                                <h3>${coin.name}</h3>
-                                <p><strong>Price:</strong> ${coin.price}</p>
-                                <p><strong>Market Cap:</strong> ${coin.marketCap}</p>
-                                <p><strong>Launch Date:</strong> ${coin.launchDate}</p>
-                                <button onclick="showCoinDetail(${coin.id})">View Details</button>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
+                <section>
+                    <h2 class="section-title">All Meme Coins</h2>
+                    <div class="table-container">
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Price Change (1h)</th>
+                                    <th>Price Change (24h)</th>
+                                    <th>Price Change (7d)</th>
+                                    <th>Market Cap</th>
+                                    <th>Volume</th>
+                                    <th>Supply</th>
+                                    <th>Chain</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${coins.map(coin => `
+                                    <tr onclick="showCoinDetail(${coin.id})">
+                                        <td>${coin.name}</td>
+                                        <td>${coin.price.toFixed(8)}</td>
+                                        <td>${coin.priceChange1h}%</td>
+                                        <td>${coin.priceChange24h}%</td>
+                                        <td>${coin.priceChange7d}%</td>
+                                        <td>${coin.marketCap.toLocaleString()}</td>
+                                        <td>${coin.volume.toLocaleString()}</td>
+                                        <td>${coin.supply.toLocaleString()}</td>
+                                        <td>${coin.chain}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
             `;
             mainContent.innerHTML = html;
         }
 
         function showAllCoins() {
-            let html = `
-                <h2 class="section-title">All Meme Coins</h2>
-                <div class="news-grid">
-                    ${coins.map(coin => `
-                        <div class="news-item">
-                            <div class="news-item-content">
-                                <h3>${coin.name}</h3>
-                                <p><strong>Price:</strong> ${coin.price}</p>
-                                <p><strong>Market Cap:</strong> ${coin.marketCap}</p>
-                                <p><strong>Launch Date:</strong> ${coin.launchDate}</p>
-                                <p><strong>Chain:</strong> ${coin.chain}</p>
-                                <button onclick="showCoinDetail(${coin.id})">View Details</button>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-            mainContent.innerHTML = html;
+            showHomePage();
         }
 
         function showCoinDetail(id) {
@@ -289,17 +340,40 @@
                             <div>Price</div>
                         </div>
                         <div class="metric">
-                            <div class="metric-value">${coin.marketCap}</div>
+                            <div class="metric-value">${coin.marketCap.toLocaleString()}</div>
                             <div>Market Cap</div>
                         </div>
                         <div class="metric">
-                            <div class="metric-value">${coin.launchDate}</div>
-                            <div>Launch Date</div>
+                            <div class="metric-value">${coin.volume.toLocaleString()}</div>
+                            <div>Volume</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${coin.supply.toLocaleString()}</div>
+                            <div>Supply</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${coin.priceChange1h}%</div>
+                            <div>Price Change (1h)</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${coin.priceChange24h}%</div>
+                            <div>Price Change (24h)</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${coin.priceChange7d}%</div>
+                            <div>Price Change (7d)</div>
                         </div>
                     </div>
                     <div class="chart-container">
-                        <canvas id="tokenomicsChart"></canvas>
+                        <canvas id="priceChart"></canvas>
                     </div>
+                    <h3>Tokenomics</h3>
+                    <ul>
+                        <li><strong>Launch Date:</strong> 2021-03-08</li>
+                        <li><strong>Total Supply:</strong> ${coin.supply.toLocaleString()}</li>
+                        <li><strong>Circulating Supply:</strong> ${coin.supply.toLocaleString()}</li>
+                        <li><strong>Max Supply:</strong> ${coin.supply.toLocaleString()}</li>
+                    </ul>
                     <h3>Social Media Metrics</h3>
                     <div class="social-metrics">
                         <div class="social-metric">
@@ -315,7 +389,7 @@
                             <div>Reddit Subscribers</div>
                         </div>
                     </div>
-                    <h3>Recent Articles</h3>
+                    <h3>Recent News</h3>
                     <ul>
                         <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
                         <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
@@ -325,22 +399,26 @@
             `;
             mainContent.innerHTML = html;
 
-            // Create tokenomics chart
-            const ctx = document.getElementById('tokenomicsChart').getContext('2d');
+            // Create price chart
+            const ctx = document.getElementById('priceChart').getContext('2d');
             new Chart(ctx, {
-                type: 'pie',
+                type: 'line',
                 data: {
-                    labels: ['Team', 'Marketing', 'Development', 'Community'],
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                     datasets: [{
-                        data: [10, 20, 30, 40],
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                        label: 'Price (USD)',
+                        data: [0.05, 0.06, 0.055, 0.07, 0.08, 0.075],
+                        borderColor: '#3861fb',
+                        tension: 0.1
                     }]
                 },
                 options: {
                     responsive: true,
-                    title: {
-                        display: true,
-                        text: 'Tokenomics'
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
             });
@@ -349,5 +427,9 @@
         // Initial load
         showHomePage();
     </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-G0nfZr58ycM/5gRpQTRfpzqF3xgn4ZjO0eyVQj5kNp0hWo+7M1E2UCFhK3GM7F1D" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
+
